@@ -2,8 +2,8 @@
 # -*- mode: gitignore; -*-
 *~
 \#*\#
-/.emacs.desktop
-/.emacs.desktop.lock
+emacs/.emacs.desktop
+emacs/.emacs.desktop.lock
 *.elc
 auto-save-list
 tramp
@@ -12,32 +12,46 @@ tramp
 # Org-mode
 .org-id-locations
 *_archive
+emacs/org-persist/
 
 # flymake-mode
 *_flymake.*
 
-# eshell files
-/eshell/history
-/eshell/lastdir
+# History files
+# - eshell files
+emacs/eshell/history
+emacs/eshell/lastdir
+# - recentf
+emacs/recentf
+# - transient
+emacs/transient
+# - ido
+emacs/ido.last
 
 # elpa packages
-/elpa/
+emacs/elpa/
+
+# elpaca packages
+emacs/elpaca/
 
 # reftex files
 *.rel
 
 # AUCTeX auto folder
-/auto/
+emacs/auto/
 
 # cask packages
 .cask/
-dist/
+emacs/dist/
 
 # Flycheck
 flycheck_*.el
 
 # server auth directory
-/server/
+emacs/server/
+
+# Emacs Lisp Native compiler cache
+emacs/eln-cache/
 
 # projectiles files
 .projectile
@@ -46,12 +60,12 @@ flycheck_*.el
 .dir-locals.el
 
 # network security
-/network-security.data
-
+emacs/network-security.data
 
 # ---> Elisp
 # Compiled
 *.elc
+*.eln
 
 # Packaging
 .cask
