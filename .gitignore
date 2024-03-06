@@ -37,6 +37,9 @@ emacs/elpaca/
 # reftex files
 *.rel
 
+# Tree-sitter dlls
+emacs/tree-sitter/
+
 # AUCTeX auto folder
 emacs/auto/
 
