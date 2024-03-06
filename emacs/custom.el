@@ -88,7 +88,9 @@
  '(display-time-day-and-date t)
  '(display-time-mode t nil (time))
  '(ediff-window-setup-function 'ediff-setup-windows-plain)
- '(eshell-before-prompt-hook '(eshell-begin-on-new-line))
+ '(eshell-buffer-maximum-lines 10000)
+ '(eshell-hist-ignoredups t)
+ '(eshell-history-size 10000)
  '(eshell-modifier-alist
    '((69 quote
          (lambda
@@ -164,6 +166,7 @@
          (eshell-flatten-list list))))
  '(eshell-modules-list
    '(eshell-alias eshell-banner eshell-basic eshell-cmpl eshell-dirs eshell-glob eshell-hist eshell-ls eshell-pred eshell-prompt eshell-rebind eshell-script eshell-smart eshell-term eshell-unix))
+ '(eshell-scroll-to-bottom-on-output 'this)
  '(fill-column 78)
  '(flymd-browser-open-function 'browse-url-firefox)
  '(global-font-lock-mode t nil (font-lock))

@@ -419,13 +419,9 @@ parses its input."
                     ("py" . "src python")))
   (add-to-list 'org-structure-template-alist template))
 
-(defun efs/lsp-mode-setup ()
-  (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-  (lsp-headerline-breadcrumb-mode))
-
 (use-package lsp-mode
   :commands (lsp lsp-deferred)
-  :hook (lsp-mode . efs/lsp-mode-setup)
+  :hook (lsp-mode . lsp-headerline-breadcrumb-mode)
   :init
   (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
   :config
@@ -466,33 +462,13 @@ parses its input."
 (add-hook 'lisp-mode-hook
           (lambda () (setq lisp-indent-function 'common-lisp-indent-function)))
 
-(when (eq system-type 'windows-nt)
-  (setq explicit-shell-file-name "powershell.exe")
-  (setq explicit-powershell.exe-args '()))
-
 (add-hook (derived-mode-hook-name 'shell-mode)
           (lambda () (set-buffer-process-coding-system 'cp850-dos 'cp850-dos)))
-
-(defun oa::configure-eshell ()
-  ;; Save command history when commands are entered
-  (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
-
-  ;; Truncate buffer for performance
-  (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
-
-  (setopt eshell-history-size         10000
-          eshell-buffer-maximum-lines 10000
-          eshell-hist-ignoredups t
-          eshell-scroll-to-bottom-on-input t))
 
 (use-package eshell-git-prompt)
 
 (use-package eshell
-  :hook (eshell-first-time-mode . oa::configure-eshell)
   :config
-  (with-eval-after-load 'esh-opt
-    (setopt eshell-destroy-buffer-when-process-dies t)
-    (setopt eshell-visual-commands '("htop" "zsh" "vim")))
   (eshell-git-prompt-use-theme 'powerline))
 
 (use-package dired

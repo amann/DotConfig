@@ -739,13 +739,9 @@ The =lsp-keymap-prefix= setting enables you to define a prefix for where =lsp-mo
 The =which-key= integration adds helpful descriptions of the various keys so you should be able to learn a lot just by pressing =C-c l= in a =lsp-mode= buffer and trying different things that you find there.
 
 #+begin_src emacs-lisp
-  (defun efs/lsp-mode-setup ()
-    (setq lsp-headerline-breadcrumb-segments '(path-up-to-project file symbols))
-    (lsp-headerline-breadcrumb-mode))
-
   (use-package lsp-mode
     :commands (lsp lsp-deferred)
-    :hook (lsp-mode . efs/lsp-mode-setup)
+    :hook (lsp-mode . lsp-headerline-breadcrumb-mode)
     :init
     (setq lsp-keymap-prefix "C-c l")  ;; Or 'C-l', 's-l'
     :config
@@ -878,14 +874,6 @@ Use a special face for parentheses.
 
 One advantage of =shell-mode= on Windows is that it's the only way to run =cmd.exe=, PowerShell, Git Bash, etc from within Emacs.  Here's an example of how you would set up =shell-mode= to run PowerShell on Windows:
 
-#+begin_src emacs-lisp
-
-  (when (eq system-type 'windows-nt)
-    (setq explicit-shell-file-name "powershell.exe")
-    (setq explicit-powershell.exe-args '()))
-
-#+end_src
-
 On our system =cmd.exe= or Powershell use by default the code page 850. So we set this code page as process coding system:
 
 #+begin_src emacs-lisp
@@ -905,39 +893,17 @@ The downsides to Eshell are that it can be harder to configure than other packag
 - =C-c C-p= / =C-c C-n= - go back and forward in the buffer's prompts (also =[[= and =]]= with evil-mode)
 - =M-p= / =M-n= - go back and forward in the input history
 - =C-c C-u= - delete the current input string backwards up to the cursor
-- =counsel-esh-history= - A searchable history of commands typed into Eshell
-
-We will be covering Eshell more in future videos highlighting other things you can do with it.
 
 For more thoughts on Eshell, check out these articles by Pierre Neidhardt:
 - https://ambrevar.xyz/emacs-eshell/index.html
 - https://ambrevar.xyz/emacs-eshell-versus-shell/index.html
 
 #+begin_src emacs-lisp
-
-  (defun oa::configure-eshell ()
-    ;; Save command history when commands are entered
-    (add-hook 'eshell-pre-command-hook 'eshell-save-some-history)
-
-    ;; Truncate buffer for performance
-    (add-to-list 'eshell-output-filter-functions 'eshell-truncate-buffer)
-
-    (setopt eshell-history-size         10000
-            eshell-buffer-maximum-lines 10000
-            eshell-hist-ignoredups t
-            eshell-scroll-to-bottom-on-input t))
-
   (use-package eshell-git-prompt)
 
   (use-package eshell
-    :hook (eshell-first-time-mode . oa::configure-eshell)
     :config
-    (with-eval-after-load 'esh-opt
-      (setopt eshell-destroy-buffer-when-process-dies t)
-      (setopt eshell-visual-commands '("htop" "zsh" "vim")))
     (eshell-git-prompt-use-theme 'powerline))
-
-
 #+end_src
 
 
