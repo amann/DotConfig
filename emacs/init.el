@@ -43,9 +43,10 @@
                     :foreground "olive drab")
 (set-face-attribute 'line-number-major-tick nil
                     :inherit 'line-number
+                    :background (face-attribute 'line-number :background)
                     :foreground "#3f4f0f")
 (set-face-attribute 'line-number-minor-tick nil
-                    :inherit 'line-number-major-tick)
+                    :inherit 'line-number)
 )
 
 (defvar oa-proxy-connect:*process* nil
@@ -205,17 +206,17 @@
     "Starts iedit but uses \\[narrow-to-defun] to limit its scope."
     (interactive "P")
     (if arg
-	(iedit-mode)
+        (iedit-mode)
       (save-excursion
-	(save-restriction
-	  (widen)
-	  ;; this function determines the scope of `iedit-start'.
-	  (if iedit-mode
-	      (iedit-done)
-	    ;; `current-word' can of course be replaced by other
-	    ;; functions.
-	    (narrow-to-defun)
-	    (iedit-start (current-word) (point-min) (point-max)))))))
+        (save-restriction
+          (widen)
+          ;; this function determines the scope of `iedit-start'.
+          (if iedit-mode
+              (iedit-done)
+            ;; `current-word' can of course be replaced by other
+            ;; functions.
+            (narrow-to-defun)
+            (iedit-start (format "\\_<%s\\_>" (current-word)) (point-min) (point-max)))))))
   :bind
   (( "C-;" . iedit-dwim)))
 
@@ -431,4 +432,4 @@
   (fixed-pitch ((t (:foundry "outline" :family "Fira Code Retina"))))
   (default ((t (:height 130 :weight normal :width normal :slant normal :foundry "outline" :family "Fira Code Retina"))))
   (fixed-pitch-serif ((t (:family "Courier New"))))
-  (variable-pitch ((t (:inherit default :height 1.35 :foundry "outline" :family "Fira Sans")))))
+  (variable-pitch ((t (:inherit default :height 1.4 :foundry "outline" :family "Fira Sans")))))
