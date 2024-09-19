@@ -98,3 +98,9 @@ emacs/network-security.data
 *.wx64fsl
 *.wx32fsl
 
+/emacs/tmp*
+/emacs/request/
+/emacs/url/
+/emacs/projects
+/emacs/history
+/emacs/.mc-lists.el
