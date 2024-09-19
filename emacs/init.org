@@ -521,8 +521,8 @@ We use the package [[https://github.com/isamert/swagg.el][swagg]] for fetching t
     :custom
     swagg-definitions
     '((:name "FI-R-GIT"
-             :base "http://fi-r-git"
-             :json "http://fi-r-git/swagger.v1.json"
+             :base "http://fi-r-git.slcloud.ch"
+             :json "http://fi-r-git.slcloud.ch/swagger.v1.json"
              :header (Authorization "c41ffd470c3211c0bd773d79d1e152273f62f1a1"))
       (:name "GitHub"
              :json "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json"
