@@ -127,16 +127,16 @@ We display the line number in the left fringe of the buffer window.
 
 ** Proxy-connect
 
-Since I don't know how to authenticate Emacs to the proxy of Swiss Life, I use an little =C#= program which listens to the local port =8080= and does the authentication to the proxy.  Here we ensure that the program is running simply by calling the process ~proxy-connect~.
+Since I don't know how to authenticate Emacs to the proxy of Swiss Life, I use an little =C#= program which listens to the local port =8080= and does the authentication to the proxy.  Here we ensure that the program is running simply by calling the process ~ProxyConnect~.
 
 #+begin_src emacs-lisp
   (defvar oa-proxy-connect:*process* nil
     "Contains the process of ch.swisslife.ProxyConnect.")
   (defun oa-proxy-connect:start ()
-    "Start ch.swisslife.ProxyConnect and return the process object."
+    "Start ProxyConnect and return the process object."
     (interactive)
     (unless (process-live-p oa-proxy-connect:*process*)
-      (setq oa-proxy-connect:*process* (start-process "proxy-connect" nil "proxy-connect"))))
+      (setq oa-proxy-connect:*process* (start-process "ProxyConnect" nil "ProxyConnect"))))
   (defun oa-proxy-connect:stop ()
     "Stop ch.swisslife.ProxyConnect and return `true' if a running process has been stopped, `nil' else."
     (interactive)
