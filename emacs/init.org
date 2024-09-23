@@ -828,6 +828,38 @@ The =highlight-stages-jit-highlighter= has a bug which manifests itself, among o
 
 
 
+*** Sly
+
+We use Sly
+#+begin_src emacs-lisp
+  (use-package sly)
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package sly-quicklisp)
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package sly-named-readtables)
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package sly-macrostep)
+#+end_src
+
+#+begin_src emacs-lisp :tangle no
+  (use-package sly-stepper)
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package sly-asdf)
+#+end_src
+
+#+begin_src emacs-lisp
+  (load (expand-file-name ".roswell/helper.el" "~/"))
+#+end_src
+
+
 * Shells in Emacs
 
 ** shell-mode

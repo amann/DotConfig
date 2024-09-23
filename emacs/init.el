@@ -380,6 +380,18 @@
 (add-hook 'lisp-mode-hook
           (lambda () (setq lisp-indent-function 'common-lisp-indent-function)))
 
+(use-package sly)
+
+(use-package sly-quicklisp)
+
+(use-package sly-named-readtables)
+
+(use-package sly-macrostep)
+
+(use-package sly-asdf)
+
+(load (expand-file-name ".roswell/helper.el" "~/"))
+
 (add-hook (derived-mode-hook-name 'shell-mode)
           (lambda () (set-buffer-process-coding-system 'cp850-dos 'cp850-dos)))
 
