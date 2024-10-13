@@ -49,27 +49,26 @@
                     :inherit 'line-number)
 )
 
-(defvar oa-proxy-connect:*process* nil
-  "Contains the process of ch.swisslife.ProxyConnect.")
-(defun oa-proxy-connect:start ()
-  "Start ProxyConnect and return the process object."
-  (interactive)
-  (unless (process-live-p oa-proxy-connect:*process*)
-    (setq oa-proxy-connect:*process* (start-process "ProxyConnect" nil "ProxyConnect"))))
-(defun oa-proxy-connect:stop ()
-  "Stop ch.swisslife.ProxyConnect and return `true' if a running process has been stopped, `nil' else."
-  (interactive)
-  (when-let ((livep (process-live-p oa-proxy-connect:*process*)))
-    (delete-process oa-proxy-connect:*process*)
-    (setq oa-proxy-connect:*process* nil)
-    livep))
-
-(setopt url-proxy-services
-        '(("no_proxy" . "^\\\\(fi-r-git\\\\|localhost\\\\|10\\\\..*\\\\|192\\\\.168\\\\..*\\\\)")
-          ("http" . "localhost:8080")
-          ("https" . "localhost:8080")))
-
-(oa-proxy-connect:start)
+(when (eql system-type 'windows-nt)
+  (defvar oa-proxy-connect:*process* nil
+    "Contains the process of ch.swisslife.ProxyConnect.")
+  (defun oa-proxy-connect:start ()
+    "Start ProxyConnect and return the process object."
+    (interactive)
+    (unless (process-live-p oa-proxy-connect:*process*)
+      (setq oa-proxy-connect:*process* (start-process "ProxyConnect" nil "ProxyConnect"))))
+  (defun oa-proxy-connect:stop ()
+    "Stop ch.swisslife.ProxyConnect and return `true' if a running process has been stopped, `nil' else."
+    (interactive)
+    (when-let ((livep (process-live-p oa-proxy-connect:*process*)))
+      (delete-process oa-proxy-connect:*process*)
+      (setq oa-proxy-connect:*process* nil)
+      livep))
+  (setopt url-proxy-services
+          '(("no_proxy" . "^\\\\(fi-r-git\\\\|localhost\\\\|10\\\\..*\\\\|192\\\\.168\\\\..*\\\\)")
+            ("http" . "localhost:8080")
+            ("https" . "localhost:8080")))
+  (oa-proxy-connect:start))
 
 (require 'package)
 
