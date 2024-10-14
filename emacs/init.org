@@ -915,7 +915,7 @@ We use Sly
 #+end_src
 
 #+begin_src emacs-lisp
-  (load (expand-file-name ".roswell/helper.el" "~/"))
+  (load (expand-file-name ".roswell/helper.el" "~/") t)
 #+end_src
 
 
@@ -1050,8 +1050,6 @@ Dired is a built-in file manager for Emacs that does some pretty amazing things!
     (delete-by-moving-to-trash t)
     (dired-dwim-target t)
     (dired-listing-switches "-AGFhlv --group-directories-first --time-style=iso --dired --color"))
-
-  (use-package dired-single)
 
   (use-package dired-git-info)
 

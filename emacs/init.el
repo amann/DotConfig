@@ -389,7 +389,7 @@
 
 (use-package sly-asdf)
 
-(load (expand-file-name ".roswell/helper.el" "~/"))
+(load (expand-file-name ".roswell/helper.el" "~/") t)
 
 (add-hook (derived-mode-hook-name 'shell-mode)
           (lambda () (set-buffer-process-coding-system 'cp850-dos 'cp850-dos)))
@@ -415,8 +415,6 @@
   (delete-by-moving-to-trash t)
   (dired-dwim-target t)
   (dired-listing-switches "-AGFhlv --group-directories-first --time-style=iso --dired --color"))
-
-(use-package dired-single)
 
 (use-package dired-git-info)
 
