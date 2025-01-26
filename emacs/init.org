@@ -2,7 +2,6 @@
 #+PROPERTY: header-args:emacs-lisp :tangle ./init.el :mkdirp yes
 
 * Basic Configuration
-
 ** Early-init File
 
 We deactivate the tool bar and the scroll bar and inhibit the loading of  =default.el=.
@@ -25,13 +24,11 @@ We use lexical binding in this file.
 
 #+end_src
 
-
 ** Set Current Language Environment
 
 #+begin_src emacs-lisp
   (setopt current-language-environment "UTF-8")
 #+end_src
-
 
 ** Enable some disabled Commands
 
@@ -69,12 +66,9 @@ We want Emacs customizations to be in their own file.
       (setq custom-file default-custom-file)))
 #+end_src
 
-
-
 ** Fonts
 
 We use as default and fixed pitch font =Fira Code Retina= (see [[https://github.com/tonsky/FiraCode/wiki/Emacs-instructions][here]]). However the ligatures seem not to work. As variable pitch font we use Fira Sans. The settings are done in the customizings.
-
 
 ** Displaying Line and Column Numbers
 
@@ -124,7 +118,6 @@ We display the line number in the left fringe of the buffer window.
                       :inherit 'line-number)
 #+end_src
 
-
 ** Proxy-connect
 
 Since I don't know how to authenticate Emacs to the proxy of Swiss Life, I use an little =C#= program which listens to the local port =8080= and does the authentication to the proxy.  Here we ensure that the program is running simply by calling the process ~ProxyConnect~.
@@ -152,8 +145,6 @@ Since I don't know how to authenticate Emacs to the proxy of Swiss Life, I use a
     (oa-proxy-connect:start))
  #+end_src
 
-
-
 ** Configure the Package System
 
 We set the archives
@@ -172,7 +163,6 @@ We set the archives
     (package-refresh-contents))
 #+end_src
 
-
 ** Using =use-package=
 
 First we check if =use-package= needs to be intalled, then we tell emacs to require =use-package=. By setting the customizable variable =use-package-always-ensure= to /true/, we won't need to indicate at each =use-package= macro the =:ensure= option.
@@ -184,7 +174,6 @@ First we check if =use-package= needs to be intalled, then we tell emacs to requ
   (require 'use-package)
   (setopt use-package-always-ensure t)
 #+end_src
-
 
 * Basic UI
 
@@ -227,7 +216,6 @@ In emacs 30.1,  the built-in completion mechanism has been enhanced.  We have to
   (use-package all-the-icons)
 #+end_src
 
-
 *** Vertico
 
 #+begin_src emacs-lisp
@@ -237,6 +225,12 @@ In emacs 30.1,  the built-in completion mechanism has been enhanced.  We have to
     (vertico-mode 1))
 #+end_src
 
+*** Marginalia
+
+#+begin_src emacs-lisp
+  (use-package marginalia
+    :custom (marginalia-mode 1))
+#+end_src
 
 *** All-The-Icons Completion
 
@@ -245,17 +239,6 @@ In emacs 30.1,  the built-in completion mechanism has been enhanced.  We have to
     :after all-the-icons
     :custom (all-the-icons-completion-mode 1))
 #+end_src
-
-
-*** TODO Marginalia
-There seems to be a problem in emacs 30.1.  Therefore we disable it for the moment.
-#+begin_src emacs-lisp :tangle no
-  (use-package marginalia
-    :after all-the-icons-completion
-    :hook (marginalia-mode . all-the-icons-completion-marginalia-setup)
-    :custom (marginalia-mode 1))
-#+end_src
-
 
 *** Orderless
 
@@ -284,13 +267,11 @@ There seems to be a problem in emacs 30.1.  Therefore we disable it for the mome
     (load-file (expand-file-name "~/.config/emacs/scripts/orderless-utils.el")))
 #+end_src
 
-
 *** Consult
 
 #+begin_src emacs-lisp
   (use-package consult)
 #+end_src
-
 
 *** Embark
 
@@ -303,7 +284,6 @@ There seems to be a problem in emacs 30.1.  Therefore we disable it for the mome
 
   (use-package embark-consult)
 #+end_src
-
 
 *** Corfu
 
@@ -323,7 +303,6 @@ There seems to be a problem in emacs 30.1.  Therefore we disable it for the mome
     (corfu-popupinfo-mode))
 #+end_src
 
-
 ** Documentation Tools
 
 *** Which Key
@@ -334,7 +313,6 @@ There seems to be a problem in emacs 30.1.  Therefore we disable it for the mome
   :diminish which-key-mode
   :custom (which-key-idle-delay 0.5))
 #+end_src
-
 
 *** Helpful
 
@@ -350,7 +328,6 @@ There seems to be a problem in emacs 30.1.  Therefore we disable it for the mome
     ([remap describe-key] . helpful-key))
 #+end_src
 
-
 ** Navigation
 
 ***  ACE Window
@@ -363,7 +340,6 @@ There seems to be a problem in emacs 30.1.  Therefore we disable it for the mome
     (aw-keys '(?a ?s ?d ?f ?g ?h ?j ?k ?l)))
 #+end_src
 
-
 *** Wgrep
 
 #+begin_src emacs-lisp
@@ -375,7 +351,6 @@ There seems to be a problem in emacs 30.1.  Therefore we disable it for the mome
           ("C-c C-c" . wgrep-finish-edit)))
 #+end_src
 
-
 *** Ripgrep-Mode
 
 See the [[https://rgel.readthedocs.io/en/latest/index.html][rg manual]].
@@ -383,7 +358,6 @@ See the [[https://rgel.readthedocs.io/en/latest/index.html][rg manual]].
 #+begin_src emacs-lisp
   (use-package rg)
 #+end_src
-
 
 ** Appearance
 
@@ -395,13 +369,11 @@ See the [[https://rgel.readthedocs.io/en/latest/index.html][rg manual]].
     :custom (doom-modeline-height 12))
 #+end_src
 
-
 *** DOOM Themes
 
 #+begin_src emacs-lisp :tangle no
   (use-package doom-themes)
 #+end_src
-
 
 
 ** Editing
@@ -411,7 +383,6 @@ See the [[https://rgel.readthedocs.io/en/latest/index.html][rg manual]].
 #+begin_src emacs-lisp
   (use-package multiple-cursors)
 #+end_src
-
 
 *** IEdit
 
@@ -436,7 +407,6 @@ See the [[https://rgel.readthedocs.io/en/latest/index.html][rg manual]].
     :bind
     (( "C-;" . iedit-dwim)))
 #+end_src
-
 
 * Version Control
 
@@ -473,7 +443,6 @@ NOTE: Make sure to configure a GitHub token before using this package!
 #+begin_src emacs-lisp :tangle no
   (use-package forge)
 #+end_src
-
 
 *** Magit Filenotify
 
@@ -522,27 +491,6 @@ This packages provides the major modes =git-attributes-mode=, =git-config-mode= 
     (define-fringe-bitmap 'git-gutter-fr:added [224] nil nil '(center repeated))
     (define-fringe-bitmap 'git-gutter-fr:modified [224] nil nil '(center repeated))
     (define-fringe-bitmap 'git-gutter-fr:deleted [128 192 224 240] nil nil 'bottom))
-#+end_src
-
-
-** Request
-
-We set the default backend for the =request= suite to =url-retrieve= instead of =curl=.
-
-#+begin_src emacs-lisp
-  (use-package request
-    :custom
-    request-backend 'url-retrieve)
-#+end_src 
-
-** Json-ts-mode
-
-#+begin_src emacs-lisp
-  (use-package json-ts-mode
-    :custom
-    major-mode-remap-alist
-    (cons '(json-mode . json-ts-mode)
-          major-mode-remap-alist))
 #+end_src
 
 ** Swagg
@@ -669,7 +617,6 @@ Utility taken from [[https://github.com/abo-abo/org-download#org-download][here]
     :hook (dired-mode . org-download-enable))
 #+end_src
 
-
 ** Configure Babel Languages
 
 To execute or export code in =org-mode= code blocks, you'll need to set up =org-babel-load-languages= for each language you'd like to use.  [[https://orgmode.org/worg/org-contrib/babel/languages/index.html][This page]] documents all of the languages that you can use with =org-babel=.
@@ -684,7 +631,6 @@ To execute or export code in =org-mode= code blocks, you'll need to set up =org-
 (push '("conf-unix" . conf-unix) org-src-lang-modes)
 
 #+end_src
-
 
 ** Structure Templates
 
@@ -701,8 +647,6 @@ You can add more =src= block templates below by copying one of the lines and cha
                       ("py" . "src python")))
     (add-to-list 'org-structure-template-alist template))
 #+end_src
-
-
 
 * Development
 
@@ -784,7 +728,6 @@ This package is built on the [[https://github.com/Alexander-Miller/treemacs][tre
 
 #+end_src
 
-
 ** Lisp Modes
 
 #+begin_src emacs-lisp
@@ -803,7 +746,6 @@ This package is built on the [[https://github.com/Alexander-Miller/treemacs][tre
 #+begin_src emacs-lisp
   (use-package macrostep)
 #+end_src
-
 
 *** Parenface 
 
@@ -866,7 +808,6 @@ The =highlight-stages-jit-highlighter= has a bug which manifests itself, among o
   ((emacs-lisp-mode lisp-mode) . paredit-mode))
 #+end_src
 
-
 *** Add Hooks
 
 **** For Emacs Lisp Mode
@@ -877,14 +818,12 @@ The =highlight-stages-jit-highlighter= has a bug which manifests itself, among o
           (lambda () (local-set-key [C-S-return] 'eval-print-last-sexp)))
 #+end_src
 
-
 **** For Common Lisp Mode
 
 #+begin_src emacs-lisp
   (add-hook 'lisp-mode-hook
             (lambda () (setq lisp-indent-function 'common-lisp-indent-function)))
 #+end_src
-
 
 
 *** Sly
@@ -918,7 +857,6 @@ We use Sly
   (load (expand-file-name ".roswell/helper.el" "~/") t)
 #+end_src
 
-
 * Shells in Emacs
 
 ** shell-mode
@@ -940,7 +878,6 @@ On our system =cmd.exe= or Powershell use by default the code page 850. So we se
   (add-hook (derived-mode-hook-name 'shell-mode)
             (lambda () (set-buffer-process-coding-system 'cp850-dos 'cp850-dos)))
 #+end_src
-
 
 ** Eshell
 
@@ -968,7 +905,6 @@ For more thoughts on Eshell, check out these articles by Pierre Neidhardt:
     (eshell-modules-list
      '(eshell-alias eshell-banner eshell-basic eshell-cmpl eshell-dirs eshell-glob eshell-hist eshell-ls eshell-pred eshell-prompt eshell-rebind eshell-script eshell-smart eshell-term eshell-unix)))
 #+end_src
-
 
 * File Management
 
@@ -1074,7 +1010,6 @@ Dired is a built-in file manager for Emacs that does some pretty amazing things!
 
 
 
-
 * Load Custom File
 
 Load custom file.
@@ -1082,7 +1017,6 @@ Load custom file.
 #+begin_src emacs-lisp
   (load custom-file t t t t)
 #+end_src
-
 
 
 * Appearance
@@ -1099,7 +1033,6 @@ We set some faces.
     (fixed-pitch-serif ((t (:family "Courier New"))))
     (variable-pitch ((t (:inherit default :height 1.4 :foundry "outline" :family "Fira Sans")))))
 #+end_src
-
 
 ** COMMENT Modus Themes
 
