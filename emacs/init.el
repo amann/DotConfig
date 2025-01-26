@@ -262,6 +262,8 @@
                              (0 (prog1 () (compose-region (match-beginning 1) (match-end 1) "•"))))))
 
   :custom
+  (org-M-RET-may-split-line '((default . nil)))
+  (org-insert-heading-respect-content t)
   (org-ellipsis " ▾")
   (org-hide-emphasis-markers t)
 
