@@ -104,7 +104,10 @@
   (minibuffer-depth-indicate-mode t)
   (mouse-autoselect-window -0.25)
   (focus-follows-mouse 'auto-raise)
-  (indent-tabs-mode nil))
+  (indent-tabs-mode nil)
+  (use-file-dialog nil)
+  (use-dialog-box nil)
+  (pop-up-windows nil))
 
 (use-package general)
 
