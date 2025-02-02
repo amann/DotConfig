@@ -439,6 +439,14 @@
 (use-package dired-hide-dotfiles
   :hook (dired-mode . dired-hide-dotfiles-mode))
 
+(use-package pdf-tools
+  :defer t
+  :commands (pdf-loader-install)
+  :mode "\\.pdf\\'"
+  :init (pdf-loader-install)
+  :config (add-to-list 'revert-without-query ".pdf")
+  :hook ((pdf-view-mode) . (lambda () (interactive) (display-line-numbers-mode -1))))
+
 (load custom-file t t t t)
 
 (use-package emacs

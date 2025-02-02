@@ -1015,7 +1015,18 @@ Dired is a built-in file manager for Emacs that does some pretty amazing things!
 
 
 
+** PDFs
+[[https:][pdf-tools]] is a replacement of DocView for viewing PDF files inside Emacs.  It uses the =poppler= library, which also means that =pdf-tools= can be used to modify PDFs.  Disable =display-line-numbers-mode= in =pdf-view-mode= because line numbers crash it.
 
+#+begin_src emacs-lisp
+  (use-package pdf-tools
+    :defer t
+    :commands (pdf-loader-install)
+    :mode "\\.pdf\\'"
+    :init (pdf-loader-install)
+    :config (add-to-list 'revert-without-query ".pdf")
+    :hook ((pdf-view-mode) . (lambda () (interactive) (display-line-numbers-mode -1))))
+#+end_src
 * Load Custom File
 
 Load custom file.
