@@ -565,6 +565,25 @@ We use the package [[https://github.com/isamert/swagg.el][swagg]] for fetching t
              :base "https://gitlab.com/api")))
 #+end_src
 
+#+RESULTS:
+
+* Markdown
+
+We use =impatient-mode=  and =showdown= for previews of Markdown files.
+
+#+begin_src emacs-lisp
+  (use-package impatient-showdown
+    :custom
+    (httpd-port 80)
+    (impatient-showdown-scripts (cl-remove-duplicates (cl-list* "https://polyfill.io/v3/polyfill.min.js?features=es6"
+                                                                "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
+                                                                "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"
+                                                                "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML"
+                                                                impatient-showdown-scripts)
+                                                      :test 'string=))
+    (impatient-showdown-flavor 'github))
+#+end_src
+
 * Org Mode
 
 [[https://orgmode.org/][Org Mode]] is one of the hallmark features of Emacs.  It is a rich document editor, project planner, task and time tracker, blogging engine, and literate coding utility all wrapped up in one package.
