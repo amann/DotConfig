@@ -450,6 +450,20 @@ See the [[https://rgel.readthedocs.io/en/latest/index.html][rg manual]].
     (magit-display-buffer-function #'magit-display-buffer-same-window-except-diff-v1))
 #+end_src
 
+*** Ediff
+
+Add some settings for =ediff=.
+
+#+begin_src emacs-lisp
+  (use-package ediff
+    :custom
+    (ediff-keep-variants nil)
+    (ediff-make-buffers-readonly-at-startup nil)
+    (ediff-merge-revisions-with-ancestor t)
+    (ediff-show-clashes-only t)
+    (ediff-window-setup-function 'ediff-setup-windows-plain))
+#+end_src
+
 *** TODO Forge
 
 NOTE: Make sure to configure a GitHub token before using this package!
