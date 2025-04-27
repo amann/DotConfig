@@ -838,16 +838,21 @@ The =highlight-stages-jit-highlighter= has a bug which manifests itself, among o
     :custom
     (highlight-stages-highlight-real-quote nil)
     :custom-face
-    (highlight-stages-negative-level-face ((((background light)) :background "#ffdfdf")
-                                           (t :background "442424")))
-    (highlight-stages-level-1-face ((((background light)) :background "#ffffbf")
-                                    (t :background "#444404")))
-    (highlight-stages-level-2-face ((((background light)) :background "#efffcf")
-                                    (t :background "#344414")))
-    (highlight-stages-level-3-face ((((background light)) :background "#dfffdf")
-                                    (t :background "#244424")))
-    (highlight-stages-higher-level-face ((((background light)) :background "#cfffef")
-                                         (t :background "#144434"))))
+    (highlight-stages-negative-level-face ((((background light))
+                                            :background "#ffdfdf")
+                                           (t :background "red4")))
+    (highlight-stages-level-1-face ((((background light))
+                                     :background "#ffffbf")
+                                    (t :background "#051020")))
+    (highlight-stages-level-2-face ((((background light))
+                                     :background "#efffcf")
+                                    (t :background "#101015")))
+    (highlight-stages-level-3-face ((((background light))
+                                     :background "#dfffdf")
+                                    (t :background "#151010")))
+    (highlight-stages-higher-level-face ((((background light))
+                                          :background "#cfffef")
+                                         (t :background "#201005"))))
 #+end_src
 
 *** Paredit
