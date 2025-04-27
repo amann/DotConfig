@@ -818,6 +818,7 @@ We use Sly
 
 #+begin_src emacs-lisp
   (load (expand-file-name ".roswell/helper.el" "~/") t)
+  (setf inferior-lisp-program "sbcl")
 #+end_src
 
 * Shells in Emacs
