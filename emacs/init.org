@@ -26,12 +26,6 @@ We use lexical binding in this file.
 
 #+end_src
 
-** Set Current Language Environment
-
-#+begin_src emacs-lisp
-  (setopt current-language-environment "UTF-8")
-#+end_src
-
 ** Enable some disabled Commands
 
 Some commands are disabled by default. So we want to enable them here by removing the symbol property =disabled= of the symbols naming the commands.
@@ -51,7 +45,7 @@ Some commands are disabled by default. So we want to enable them here by removin
 ** Load Path for Additional Scripts
 
 #+begin_src emacs-lisp
-  (add-to-list 'load-path (expand-file-name "scripts/" "~/.config/emacs/"))
+  (add-to-list 'load-path (expand-file-name "scripts/" (file-name-directory load-file-name)))
 #+end_src
 
 ** The Custom File
@@ -61,63 +55,11 @@ We want Emacs customizations to be in their own file.
 #+begin_src emacs-lisp
   ;;;;* Load Customizations
   (unless (and (boundp 'custom-file)
-	       custom-file
-	       (file-writable-p custom-file))
+               custom-file
+               (file-writable-p custom-file))
     (let ((default-custom-file (expand-file-name "custom.el"
-						 (file-name-directory load-file-name))))
+  					       (file-name-directory load-file-name))))
       (setq custom-file default-custom-file)))
-#+end_src
-
-** Fonts
-
-We use as default and fixed pitch font =Fira Code Retina= (see [[https://github.com/tonsky/FiraCode/wiki/Emacs-instructions][here]]). However the ligatures seem not to work. As variable pitch font we use Fira Sans. The settings are done in the customizings.
-
-** Displaying Line and Column Numbers
-
-We display the line number in the left fringe of the buffer window.
-#+begin_src emacs-lisp
-  (setopt column-number-mode t
-          global-display-line-numbers-mode t)
-#+end_src
-
- However, we disable the feature for following  modes:
- #+NAME: modes-without-linenumbers
- - org-mode
- - dired-mode
- - treemacs-mode
- - term-mode
- - shell-mode
- - ehell-mode
-
-#+NAME: modes-to-hooks
-#+begin_src emacs-lisp :var modes=modes-without-linenumbers() :tangle no
-  (mapcar (lambda (mode-name)
-            (derived-mode-hook-name (intern mode-name)))
-          modes)
-#+end_src
-
-
-#+begin_src emacs-lisp :var hooks=modes-to-hooks(modes=modes-without-linenumbers())
-  (dolist (hook hooks)
-    (add-hook hook (lambda () (display-line-numbers-mode 0))))
-
-  (setopt display-line-numbers-grow-only t
-          display-line-numbers-width-start 50
-          display-line-numbers-minor-tick 0
-          display-line-numbers-major-tick 10)
-  (set-face-attribute 'line-number nil
-                      :inherit '(shadow default)
-                      :foreground "dark slate gray"
-                      :height 0.7)
-  (set-face-attribute 'line-number-current-line nil
-                      :inherit 'line-number
-                      :foreground "olive drab")
-  (set-face-attribute 'line-number-major-tick nil
-                      :inherit 'line-number
-                      :background (face-attribute 'line-number :background)
-                      :foreground "#3f4f0f")
-  (set-face-attribute 'line-number-minor-tick nil
-                      :inherit 'line-number)
 #+end_src
 
 ** Proxy-connect
@@ -134,7 +76,7 @@ Since I don't know how to authenticate Emacs to the proxy of Swiss Life, I use a
       (unless (process-live-p oa-proxy-connect:*process*)
         (setq oa-proxy-connect:*process* (start-process "ProxyConnect" nil "ProxyConnect"))))
     (defun oa-proxy-connect:stop ()
-      "Stop ch.swisslife.ProxyConnect and return `true' if a running process has been stopped, `nil' else."
+      "Stop ProxyConnect and return `true' if a running process has been stopped, `nil' else."
       (interactive)
       (when-let ((livep (process-live-p oa-proxy-connect:*process*)))
         (delete-process oa-proxy-connect:*process*)
@@ -154,9 +96,9 @@ We set the archives
   (require 'package)
 
   (setopt package-archives
-          '(("gnu" . "http://elpa.gnu.org/packages/")
-            ("melpa" . "http://melpa.org/packages/")
-            ("org" . "http://orgmode.org/elpa/"))
+          '(("gnu" . "https://elpa.gnu.org/packages/")
+            ("melpa" . "https://melpa.org/packages/")
+            ("org" . "https://orgmode.org/elpa/"))
           package-check-signature nil
           package-selected-packages nil)
 
@@ -185,6 +127,7 @@ First we check if =use-package= needs to be intalled, then we tell emacs to requ
   (use-package emacs
     :ensure nil
     :custom
+    (current-language-environment "UTF-8")
     (savehist-mode t)
     (recentf-mode t)
     (recentf-save-file "~/.config/emacs/recentf")
@@ -200,7 +143,9 @@ First we check if =use-package= needs to be intalled, then we tell emacs to requ
     (indent-tabs-mode nil)
     (use-file-dialog nil)
     (use-dialog-box nil)
-    (pop-up-windows nil))
+    (pop-up-windows nil)
+    (column-number-mode t)
+    (global-display-line-numbers-mode t))
 #+end_src
 
 ** Key Bindings
@@ -312,6 +257,17 @@ In emacs 30.1,  the built-in completion mechanism has been enhanced.  We have to
 
 *** Which Key
 
+The =which-key= mode displays the key bindings following your
+currently entered incomplete command (a prefix) in a popup.  For
+example, after enabling the minor mode if you enter =C-x= and wait for
+the default of 1 second the minibuffer will expand with all of the
+available key bindings that follow =C-x= (or as many as space allows
+given your settings).
+
+This includes prefixes like C-x 8 which are shown in a different
+face.
+
+
 #+begin_src emacs-lisp
 (use-package which-key
   :config (which-key-mode)
@@ -379,7 +335,6 @@ See the [[https://rgel.readthedocs.io/en/latest/index.html][rg manual]].
 #+begin_src emacs-lisp :tangle no
   (use-package doom-themes)
 #+end_src
-
 
 ** Editing
 
@@ -532,7 +487,8 @@ We use =impatient-mode=  and =showdown= for previews of Markdown files.
                                                                 "https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"
                                                                 "https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.4/latest.js?config=AM_CHTML"
                                                                 "http://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_HTMLorMML"
-                                                                impatient-showdown-scripts)
+                                                                (when (boundp 'impatient-showdown-scripts)
+                                                                  impatient-showdown-scripts))
                                                       :test 'string=))
     (impatient-showdown-flavor 'github))
 #+end_src
@@ -1028,6 +984,46 @@ Dired is a built-in file manager for Emacs that does some pretty amazing things!
     :config (add-to-list 'revert-without-query ".pdf")
     :hook ((pdf-view-mode) . (lambda () (interactive) (display-line-numbers-mode -1))))
 #+end_src
+
+
+* Line Numbers
+
+** Displaying Line and Column Numbers
+
+We display the line number in the left fringe of the buffer window.
+
+ However, we disable the feature for following  modes:
+ #+NAME: modes-without-linenumbers
+ - org-mode
+ - dired-mode
+ - treemacs-mode
+ - term-mode
+ - shell-mode
+ - eshell-mode
+
+#+NAME: modes-to-hooks
+#+begin_src emacs-lisp :var modes=modes-without-linenumbers() :tangle no
+  (mapcar (lambda (mode-name)
+            (derived-mode-hook-name (intern mode-name)))
+          modes)
+#+end_src
+
+#+begin_src emacs-lisp :var hooks=modes-to-hooks(modes=modes-without-linenumbers())
+  (dolist (hook hooks)
+    (add-hook hook (lambda () (display-line-numbers-mode 0))))
+#+end_src
+
+#+begin_src emacs-lisp
+  (use-package display-line-numbers
+    :custom
+    (display-line-numbers-grow-only t)
+    (display-line-numbers-width-start 50)
+    (display-line-numbers-minor-tick 0)
+    (display-line-numbers-major-tick 10))
+#+end_src
+
+
+
 * Load Custom File
 
 Load custom file.
@@ -1039,31 +1035,71 @@ Load custom file.
 
 * Appearance
 
-** Faces
+** Global Faces
+
+We use as default and fixed pitch font =Fira Code Retina= (see [[https://github.com/tonsky/FiraCode/wiki/Emacs-instructions][here]]).  As variable pitch font we use =Fira Sans=. 
 
 We set some faces.
 
 #+begin_src emacs-lisp
   (use-package emacs
     :custom-face
-    (fixed-pitch ((t (:foundry "outline" :family "Fira Code Retina"))))
-    (default ((t (:height 130 :weight normal :width normal :slant normal :foundry "outline" :family "Fira Code Retina"))))
+    (fixed-pitch ((t (:foundry "outline"
+                               :family "Fira Code Retina"))))
+    (default ((t (:height 130
+                          :weight normal
+                          :width normal
+                          :slant normal
+                          :foundry "outline"
+                          :family "Fira Code Retina"))))
     (fixed-pitch-serif ((t (:family "Courier New"))))
-    (variable-pitch ((t (:inherit default :height 1.4 :foundry "outline" :family "Fira Sans")))))
+    (variable-pitch ((t (:inherit default
+                                  :height 1.4
+                                  :foundry "outline"
+                                  :family "Fira Sans")))))
 #+end_src
 
-** COMMENT Modus Themes
+** Ligatures
 
-#+begin_src emacs-lisp :tangle no
-  (use-package modus-themes
-    :ensure nil
-    :init (modus-themes-load-themes)
-    :config (modus-themes-load-vivendi))
+We set up ligatures for some character combinations.
+
+#+begin_src emacs-lisp
+  (use-package ligature
+    :ensure t
+    :config
+    (ligature-set-ligatures
+     't
+     '("www" "&&" "||" "::" "->" "<-" "=>" "<=>" "==" "===" "!=" "!=="))
+    (global-ligature-mode t))
+#+end_src
+
+** Modus Themes
+
+#+begin_src emacs-lisp :tangle yes
+  (load-theme 'modus-vivendi)
+#+end_src
+
+** Display-Line-Numbers
+
+#+begin_src emacs-lisp
+  (set-face-attribute 'line-number nil
+                      :inherit '(shadow default)
+                      :foreground "dark slate gray"
+                      :height 0.7)
+  (set-face-attribute 'line-number-current-line nil
+                      :inherit 'line-number
+                      :foreground "olive drab")
+  (set-face-attribute 'line-number-major-tick nil
+                      :inherit 'line-number
+                      :weight (face-attribute 'line-number :weight) 
+                      :background (face-attribute 'line-number :background)
+                      :foreground "#3f4f0f")
+  (set-face-attribute 'line-number-minor-tick nil
+                      :inherit 'line-number)
 #+end_src
 
 
-
-
+* Local Variables
 
 
 #+Local Variables: 
