@@ -5,10 +5,11 @@
 * Basic Configuration
 ** Early-init File
 
-We deactivate the tool bar and the scroll bar and inhibit the loading of  =default.el=.
+We deactivate the tool bar the scroll bar and the menu bar and inhibit the loading of  =default.el=.
 #+begin_src emacs-lisp :tangle ./early-init.el :mkdirp yes
   (tool-bar-mode -1)
   (scroll-bar-mode -1)
+  (menu-bar-mode -1)
   (setopt inhibit-default-init t
           visible-bell t)
 #+end_src
