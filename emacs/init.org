@@ -80,7 +80,7 @@ Since I don't know how to authenticate Emacs to the proxy of Swiss Life, I use a
 #+begin_src emacs-lisp
   (when (eql system-type 'windows-nt)
     (defvar oa-proxy-connect:*process* nil
-      "Contains the process of ch.swisslife.ProxyConnect.")
+      "Contains the process of ProxyConnect.")
     (defun oa-proxy-connect:start ()
       "Start ProxyConnect and return the process object."
       (interactive)
@@ -97,7 +97,11 @@ Since I don't know how to authenticate Emacs to the proxy of Swiss Life, I use a
             '(("no_proxy" . "^\\\\(.*[.]slcloud.ch\\\\|localhost\\\\|10\\\\..*\\\\|192\\\\.168\\\\..*\\\\)")
               ("http" . "localhost:8080")
               ("https" . "localhost:8080")))
-    (oa-proxy-connect:start))
+    (unless (ignore-errors (or (delete-process (make-network-process :name "check-proxy"
+                                                                     :host "127.0.0.1"
+                                                                     :service 8080))
+                               t))
+      (oa-proxy-connect:start)))
  #+end_src
 
 ** Configure the Package System
