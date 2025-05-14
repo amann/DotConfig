@@ -62,6 +62,17 @@ We want Emacs customizations to be in their own file.
       (setq custom-file default-custom-file)))
 #+end_src
 
+** Load secrets.el.gpg
+
+We load the file =secrets.el.gpg= which contains passwords and access tokens.
+
+#+begin_src emacs-lisp
+  (let ((secrets-file (expand-file-name "secrets.el.gpg"
+                                        (file-name-directory load-file-name))))
+    (when (file-exists-p secrets-file)
+      (load-file secrets-file)))
+#+end_src
+
 ** Proxy-connect
 
 Since I don't know how to authenticate Emacs to the proxy of Swiss Life, I use an little =C#= program which listens to the local port =8080= and does the authentication to the proxy.  Here we ensure that the program is running simply by calling the process ~ProxyConnect~.
@@ -461,10 +472,10 @@ We use the package [[https://github.com/isamert/swagg.el][swagg]] for fetching t
   (use-package swagg
     :custom
     swagg-definitions
-    '((:name "FI-R-GIT"
+    `((:name "FI-R-GIT"
              :base "http://fi-r-git.slcloud.ch/api/v1"
              :json "http://fi-r-git.slcloud.ch/swagger.v1.json"
-             :headers (("Authorization" . "token c41ffd470c3211c0bd773d79d1e152273f62f1a1")))
+             :headers (("Authorization" . ,oa-fi-r-git-token)))
       (:name "GitHub"
              :json "https://raw.githubusercontent.com/github/rest-api-description/main/descriptions/api.github.com/api.github.com.json"
              :base "https://api.github.com")
