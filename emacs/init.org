@@ -158,7 +158,6 @@ First we check if =use-package= needs to be intalled, then we tell emacs to requ
     (indent-tabs-mode nil)
     (use-file-dialog nil)
     (use-dialog-box nil)
-    (pop-up-windows nil)
     (column-number-mode t)
     (global-display-line-numbers-mode t))
 #+end_src
